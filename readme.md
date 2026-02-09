@@ -12,7 +12,7 @@ Create an issue in the repo with your question or concern. As a back up, you can
 
 # [MVP Summit 2026](https://mvp.microsoft.com)
 
-## 🔥BRKXXX: SESSIONNAME
+## 🔥BRKXXX: Hunting with Relationships: Graph Driven Threat Detection with Sentinel Platform and Custom Security graphs
 
 ### Session Description
 
