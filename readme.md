@@ -12,11 +12,11 @@ Create an issue in the repo with your question or concern. As a back up, you can
 
 # [MVP Summit 2026](https://mvp.microsoft.com)
 
-## 🔥BRKXXX: Hunting with Relationships: Graph Driven Threat Detection with Sentinel Platform and Custom Security graphs
+## 🔥LAB011: Hunting with Relationships: Graph Driven Threat Detection with Sentinel Platform and Custom Security graphs
 
 ### Session Description
 
-*Add Session Description*
+This hands‑on lab explores threat hunting in Microsoft Sentinel using a graph‑first approach. Attendees investigate attacker behavior through relationships between identities, assets, permissions, activity patterns, and lateral‑movement paths—going beyond isolated events. Using custom security graphs and GQL, participants run log queries, identify missed attacker behaviors, and perform faster, scalable graph‑based hunting.
 
 ### 🌟 Microsoft Learn MCP Server
 
