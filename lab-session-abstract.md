@@ -1,4 +1,4 @@
-# Ship, Harden, Break, Investigate — Azure DevOps with AI as Your Co-Pilot
+# End-to-End Agentic DevOps with Azure MCP — Ship, Harden, Break, Investigate
 
 **Hands-On Lab (30 min) | Level: 300**
 
