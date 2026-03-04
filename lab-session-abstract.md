@@ -2,13 +2,13 @@
 
 **Hands-On Lab (30 min) | Level: 300**
 
-AI can deploy your app to Azure in 5 minutes. But should you trust what it built? In this lab, you'll use GitHub Copilot CLI with Azure MCP skills to deploy a live Container App — then put on your architect hat and evaluate the AI's decisions. You'll review generated Bicep, identify what's missing for production, direct the AI to harden the deployment, break the app on purpose, and run a full forensic investigation — all without opening the Azure Portal.
+AI can deploy your app to Azure in 5 minutes. But should you trust what it built? In this lab, you'll use GitHub Copilot CLI with Azure skills to deploy a live Container App — then put on your architect hat and evaluate the AI's decisions. You'll review generated Bicep, identify what's missing for production, direct the AI to harden the deployment, break the app on purpose, and run a full forensic investigation — all without opening the Azure Portal.
 
 ---
 
 ## What You'll Learn
 
-- How Azure MCP **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
+- How Azure **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
 - Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
 - How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
 - How skills like `azure-diagnostics` and `azure-observability` reason through problems: triage patterns, log correlation, KQL generation
@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File setup-lab.ps1 -ValidateOnly
 **What you need:**
 
 - Azure subscription with Contributor access
-- GitHub Copilot CLI with Azure MCP enabled
+- GitHub Copilot CLI with Azure MCP tools enabled
 - [Node.js 22+](https://nodejs.org/) · [Docker Desktop](https://www.docker.com/products/docker-desktop/) (must be running) · [Git](https://git-scm.com/)
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) with Bicep (`az bicep install`)
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
