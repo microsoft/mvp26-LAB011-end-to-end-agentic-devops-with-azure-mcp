@@ -8,23 +8,23 @@ AI can deploy your app to Azure in 5 minutes. But should you trust what it built
 
 ## What You'll Learn
 
+- How Azure MCP **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
 - Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
 - How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
-- How Azure MCP skills reason through diagnostics: triage patterns, log correlation, root-cause analysis
-- How to direct AI to write KQL queries and create alert rules from natural language
+- How skills like `azure-diagnostics` and `azure-observability` reason through problems: triage patterns, log correlation, KQL generation
 - When to trust the AI's decisions and when to override them
 
-## Skills Used
+## Skills Used — 7 Skills Across 4 Scenarios
 
-| Skill | What It Does | Scenario |
-|---|---|---|
-| `azure-prepare` | Detects your stack, generates IaC + Docker + config | Ship & Harden |
-| `azure-validate` | Catches misconfigurations before deployment | Ship & Harden |
-| `azure-deploy` | Provisions infrastructure + builds + deploys | Ship & Harden |
-| `azure-rbac` | Identifies least-privilege roles, generates assignment commands | Ship & Harden |
-| `azure-resource-visualizer` | Generates a Mermaid architecture diagram from live resources | See & Evaluate |
-| `azure-diagnostics` | Pulls system logs, correlates events, explains root cause | Break & Triage |
-| `azure-observability` | Writes and runs KQL queries, surfaces incident timelines | Investigate |
+| # | Skill | What It Does | Scenario |
+|---|---|---|---|
+| 1 | `azure-prepare` | Scans your codebase, generates IaC + Docker + config from skill references | 1A: Ship |
+| 2 | `azure-validate` | Pre-flight checks: Bicep compilation, Docker status, subscription access | 1A: Ship |
+| 3 | `azure-deploy` | Runs `azd up` — provisions infrastructure + builds + deploys | 1A: Ship |
+| 4 | `azure-rbac` | Finds least-privilege roles from Azure docs, generates assignment commands | 1B: Harden |
+| 5 | `azure-resource-visualizer` | Queries Resource Graph, maps relationships, generates Mermaid diagrams | 2: See |
+| 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause | 3: Break |
+| 7 | `azure-observability` | Writes KQL queries from natural language, creates alert rules | 4: Investigate |
 
 ---
 
@@ -99,14 +99,32 @@ AI can scaffold your Azure deployment in minutes. But would you push AI-generate
 
 > "I have a Node.js API in this folder. Deploy it to Azure Container Apps."
 
-**Watch how the AI:**
-- 🔍 Detects Node.js from `package.json`, classifies it as an HTTP API
-- 📋 Chooses Container Apps over App Service or Functions — do you agree with that choice?
-- 🏗️ Generates `Dockerfile`, `azure.yaml`, `infra/main.bicep`, `infra/app/api.bicep`
-- ✅ Validates Bicep compilation, Docker availability, subscription access
-- 🚀 Deploys with `azd up` — provisions ACR, Container Apps Environment, Log Analytics, and the app
+This single prompt triggers a **three-skill chain** — watch Copilot invoke each one:
 
-**End state:** A live HTTPS endpoint returning JSON. But it's deployed, not production-ready.
+**1️⃣ `azure-prepare` activates first.** Watch how it:
+- Scans your workspace — finds `package.json`, classifies it as a Node.js HTTP API
+- Chooses Container Apps as the hosting target (do you agree with that choice over App Service or Functions?)
+- Generates four files: `Dockerfile`, `azure.yaml`, `infra/main.bicep`, `infra/app/api.bicep`
+- Creates an AZD environment and sets your subscription + region
+
+> 💡 **Skill spotlight:** `azure-prepare` doesn't just generate files — it reads skill references for your language runtime, Bicep patterns, and AZD conventions. Open the generated `Dockerfile` and `infra/app/api.bicep` — these came from skill reference templates, not generic boilerplate.
+
+**2️⃣ `azure-validate` activates next.** It runs pre-flight checks:
+- Compiles Bicep (`az bicep build`) — catches syntax errors before deployment
+- Verifies Docker is running — deployment will fail without it
+- Confirms your subscription access and that the resource group name isn't taken
+
+**3️⃣ `azure-deploy` activates last.** It runs `azd up --no-prompt`, which:
+- Provisions ACR, Container Apps Environment, Log Analytics, and the app
+- Builds your Docker image and pushes it to ACR
+- Deploys the container and returns a live HTTPS endpoint
+
+**Verify it works:**
+```bash
+curl <your-endpoint-url>
+```
+
+**End state:** A live HTTPS endpoint returning JSON. Three skills, one prompt. But it's deployed, not production-ready.
 
 ### Part B — Harden It (~3 min)
 
@@ -123,9 +141,15 @@ Open `infra/app/api.bicep`. What's missing for production?
 
 > "My Container App is pulling images from ACR using admin credentials. Switch it to use managed identity with AcrPull role."
 
-The AI invokes `azure-rbac` to identify the correct role, generates the `az role assignment create` command, and explains the identity chain: Container App → Managed Identity → AcrPull → ACR.
+**4️⃣ `azure-rbac` activates.** Watch how it:
+- Searches Azure RBAC documentation for the minimum-privilege role matching "pull images from ACR"
+- Identifies `AcrPull` (not `Contributor`, not `AcrPush` — least privilege)
+- Generates the exact `az role assignment create` command with your resource names
+- Explains the identity chain: Container App → System-Assigned Managed Identity → AcrPull role → ACR
 
-**Takeaway:** The AI built a working deployment. You identified what "working" doesn't mean "production-ready."
+> 💡 **300-level insight:** The AI chose `AcrPull` over `Contributor`. If it had chosen `Contributor`, would you have caught it? That's the gap between "AI-generated" and "production-reviewed."
+
+**Takeaway:** The AI built a working deployment across 3 skills. You identified what "working" doesn't mean "production-ready," and used a 4th skill to start hardening.
 
 ---
 
@@ -139,24 +163,29 @@ Architecture diagrams are either stale, wrong, or don't exist. AI can generate t
 
 > "Visualize the resources in my resource group as an architecture diagram."
 
-The AI inventories every resource, maps relationships (Container App → Environment → Log Analytics, App → ACR), and generates a Mermaid diagram with labeled subgraphs.
+**5️⃣ `azure-resource-visualizer` activates.** Watch how it:
+- Queries Azure Resource Graph to inventory every resource in your resource group
+- Maps relationships: Container App → Container Apps Environment → Log Analytics, Container App → ACR
+- Generates a Mermaid diagram with labeled subgraphs, resource types, and connection arrows
+- Outputs renderable markdown you can paste into any Mermaid viewer
+
+> 💡 **Skill spotlight:** The visualizer doesn't just list resources — it infers relationships from resource properties (e.g., `environmentId` links the Container App to its Environment). It's reading the ARM resource model, not guessing from names.
 
 ### Part B — Evaluate the Diagram (~3 min)
 
 Open the generated markdown and review critically:
 
-- Did it capture all 4 resources?
-- Are the relationships correct?
-- Does it show the ACR pull relationship?
-- Would this pass a production architecture review?
+- Did it capture all 4 resources (Container App, Environment, ACR, Log Analytics)?
+- Are the relationships correct? Does it show ACR → Container App pull?
+- What's missing that you'd need for a production architecture review?
 
 **Say to Copilot:**
 
 > "What's missing from this architecture for a production deployment?"
 
-Compare the AI's recommendations against your own findings from Scenario 1.
+Compare the AI's recommendations against your own findings from Scenario 1B.
 
-**Takeaway:** AI-generated diagrams are excellent for discovery (what exists?) but require expert review for documentation (is this complete and accurate?).
+**Takeaway:** `azure-resource-visualizer` is excellent for discovery ("what exists right now?") but requires expert review for documentation ("is this complete and accurate?"). The diagram reflects deployed state, not desired state — that gap is your job.
 
 ---
 
@@ -178,18 +207,21 @@ Hit the endpoint — you'll get `503 Service Unavailable`.
 
 > "My Container App is returning 503. What's wrong?"
 
-**Watch the triage chain:**
+**6️⃣ `azure-diagnostics` activates.** Watch the triage chain:
 
-1. **Hypothesis formation** — considers: app crashed? Ingress misconfigured? Bad image? Unhealthy environment?
-2. **Log correlation** — finds `Reason: Pending:PortMismatch` — *"TargetPort 9999 does not match listening port 3000"*
-3. **Config verification** — confirms ingress is set to 9999, app env says 3000
-4. **Root cause + fix** — gives you the exact CLI command to fix it
+1. **Hypothesis formation** — the skill considers multiple failure modes: app crash? ingress misconfiguration? bad image? unhealthy environment?
+2. **Log retrieval** — pulls Container App system logs using `az containerapp logs show --type system`
+3. **Log correlation** — finds `Reason: Pending:PortMismatch` — *"TargetPort 9999 does not match listening port 3000"*
+4. **Config verification** — cross-references ingress config (port 9999) against the container's `PORT` env var (3000)
+5. **Root cause + fix** — delivers the exact CLI command to restore the correct port
+
+> 💡 **Skill spotlight:** `azure-diagnostics` doesn't just search logs for errors — it follows a diagnostic reasoning chain. It starts broad (what could cause 503?), narrows via evidence (system logs show PortMismatch), and confirms with config data. This is the same triage pattern a senior SRE would follow.
 
 ### Apply the Fix
 
 Run the suggested fix command. Verify recovery → `200 OK`.
 
-**Takeaway:** From "my app is broken" to root cause + fix in one question, ~30 seconds.
+**Takeaway:** One natural language question → `azure-diagnostics` activated → root cause + fix in ~30 seconds. The skill did the log correlation you'd normally do manually in the portal.
 
 ---
 
@@ -203,14 +235,17 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 > "Query the Log Analytics workspace for my Container App. Show me what happened during the port mismatch incident."
 
-**The AI will:**
+**7️⃣ `azure-observability` activates.** Watch how it builds the investigation:
 
-1. Discover available log tables
-2. Run event distribution — showing PortMismatch events, ReplicaUnhealthy impact, RevisionUpdate recovery
-3. Build an incident timeline with exact start/end timestamps and duration
-4. Confirm recovery via `RevisionReady` events
+1. **Workspace discovery** — locates your Log Analytics workspace from the resource group
+2. **Table exploration** — queries `ContainerAppSystemLogs_CL` to find available event types
+3. **Event distribution** — runs a KQL `summarize count() by Reason_s` to show the breakdown: PortMismatch events, ReplicaUnhealthy impact, RevisionUpdate recovery
+4. **Incident timeline** — writes a KQL query with `earliest(TimeGenerated)` and `latest(TimeGenerated)` to calculate exact downtime duration
+5. **Recovery confirmation** — checks for `RevisionReady` events to prove the fix worked
 
-Review the KQL the AI wrote. Would you have written it differently?
+> 💡 **Skill spotlight:** `azure-observability` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
+
+**Review the KQL the AI wrote.** Copy a query and modify it — try adding a `| where TimeGenerated > ago(1h)` filter or changing the `summarize` to include `bin(TimeGenerated, 5m)` for a time-series view.
 
 ### Part B — Operationalize It (~5 min)
 
@@ -218,27 +253,32 @@ Review the KQL the AI wrote. Would you have written it differently?
 
 > "Create a KQL alert rule that fires when PortMismatch events appear in the Container App system logs."
 
-The AI writes the alert query and generates the `az monitor scheduled-query create` command with threshold, frequency, and severity.
+**`azure-observability` continues.** It:
+- Writes the alert KQL query targeting `ContainerAppSystemLogs_CL`
+- Generates the full `az monitor scheduled-query create` command with threshold, frequency, severity, and action group
+- Explains each parameter so you can tune it (e.g., evaluation frequency, number of violations before firing)
+
+> ⚠️ **Prerequisite:** The `scheduled-query` CLI extension must be installed: `az extension add --name scheduled-query --yes`
 
 **Then ask:**
 
 > "What other alert rules should I have for a production Container App?"
 
-The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory utilization.
+The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory utilization — each with the KQL pattern you'd need.
 
-**Takeaway:** The real value is going from "the incident is over" to "this class of incident will page me next time" — in the same conversation.
+**Takeaway:** Two prompts, one skill (`azure-observability`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
 
 ---
 
 ## Timing Summary
 
-| Scenario | Duration | Skills |
-|---|---|---|
-| 1. Ship & Harden | ~8 min | prepare, validate, deploy, rbac |
-| 2. See & Evaluate | ~5 min | resource-visualizer |
-| 3. Break & Triage | ~5 min | diagnostics |
-| 4. Investigate & Operationalize | ~10 min | observability |
-| **Total** | **~28 min** | **7 skills** |
+| Scenario | Duration | Skills Invoked | Skill Count |
+|---|---|---|---|
+| 1. Ship & Harden | ~8 min | `azure-prepare` → `azure-validate` → `azure-deploy` + `azure-rbac` | 4 |
+| 2. See & Evaluate | ~5 min | `azure-resource-visualizer` | 1 |
+| 3. Break & Triage | ~5 min | `azure-diagnostics` | 1 |
+| 4. Investigate & Operationalize | ~10 min | `azure-observability` | 1 |
+| **Total** | **~28 min** | **7 unique skills** | **7** |
 
 ---
 
