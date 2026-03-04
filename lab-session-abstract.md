@@ -87,6 +87,8 @@ npm install --package-lock-only
 git init && git add -A && git commit -m "init"
 ```
 
+> ⚠️ **Important:** When the AI creates your AZD environment, use a name **without hyphens** (e.g., `mcplab1234`, not `mcp-lab-1234`). Azure Container Registry names must be alphanumeric only — hyphens in the environment name will cause deployment to fail.
+
 ---
 
 ## Scenario 1 — Ship It & Harden It (~8 min)
