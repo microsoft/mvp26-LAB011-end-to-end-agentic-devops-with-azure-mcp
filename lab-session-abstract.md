@@ -44,62 +44,16 @@ graph LR
 
 ## Prerequisites
 
-Run the setup script to install and validate everything:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File setup-lab.ps1
-```
-
-Or validate an existing setup:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File setup-lab.ps1 -ValidateOnly
-```
-
-**What you need:**
-
+**Pre-installed on the VM for your convenience:** 
 - Azure subscription with Contributor access
 - GitHub Copilot CLI (see setup below)
 - [Node.js 22+](https://nodejs.org/) · [Docker Desktop](https://www.docker.com/products/docker-desktop/) (must be running) · [Git](https://git-scm.com/)
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) with Bicep (`az bicep install`)
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
+- Azure MCP Server
 
-**Quick manual check:**
-```
-node -v && docker version --format "{{.Server.Version}}" && az version -o tsv --query '"azure-cli"' && azd version && az account show --query name -o tsv
-```
-
-### Add the Azure MCP Server
-
-The Azure MCP server gives Copilot CLI direct access to your Azure resources via MCP tools. [Full docs →](https://learn.microsoft.com/azure/developer/azure-mcp-server/how-to/github-copilot-cli)
-
-1. Start the GitHub Copilot CLI in interactive mode:
-   ```
-   copilot
-   ```
-
-2. Run the MCP server configuration command:
-   ```
-   /mcp add
-   ```
-
-3. Fill in the configuration form:
-
-   | Field | Value |
-   |-------|-------|
-   | **Server Name** | `azure-mcp` |
-   | **Server Type** | `1` (Local) |
-   | **Command** | `npx -y @azure/mcp@latest server start` |
-   | **Environment Variables** | _(leave blank — uses Azure CLI auth)_ |
-   | **Tools** | `*` |
-
-4. Press **Ctrl+S** to save, then **Esc** to close.
-
-5. Verify the connection:
-   ```
-   /mcp show
-   ```
-   You should see `azure-mcp` listed with status `● connected`.
+**Configuration needed**
+- Azure Skills Plugin
 
 ### Install the Azure Skills Plugin
 
