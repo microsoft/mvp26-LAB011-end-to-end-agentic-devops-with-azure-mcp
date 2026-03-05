@@ -45,7 +45,7 @@ powershell -ExecutionPolicy Bypass -File setup-lab.ps1 -ValidateOnly
 **What you need:**
 
 - Azure subscription with Contributor access
-- GitHub Copilot CLI with Azure MCP tools enabled
+- GitHub Copilot CLI (see setup below)
 - [Node.js 22+](https://nodejs.org/) · [Docker Desktop](https://www.docker.com/products/docker-desktop/) (must be running) · [Git](https://git-scm.com/)
 - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) with Bicep (`az bicep install`)
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
@@ -54,6 +54,59 @@ powershell -ExecutionPolicy Bypass -File setup-lab.ps1 -ValidateOnly
 ```
 node -v && docker version --format "{{.Server.Version}}" && az version -o tsv --query '"azure-cli"' && azd version && az account show --query name -o tsv
 ```
+
+### Add the Azure MCP Server
+
+The Azure MCP server gives Copilot CLI direct access to your Azure resources via MCP tools. [Full docs →](https://learn.microsoft.com/azure/developer/azure-mcp-server/how-to/github-copilot-cli)
+
+1. Start the GitHub Copilot CLI in interactive mode:
+   ```
+   copilot
+   ```
+
+2. Run the MCP server configuration command:
+   ```
+   /mcp add
+   ```
+
+3. Fill in the configuration form:
+
+   | Field | Value |
+   |-------|-------|
+   | **Server Name** | `azure-mcp` |
+   | **Server Type** | `1` (Local) |
+   | **Command** | `npx -y @azure/mcp@latest server start` |
+   | **Environment Variables** | _(leave blank — uses Azure CLI auth)_ |
+   | **Tools** | `*` |
+
+4. Press **Ctrl+S** to save, then **Esc** to close.
+
+5. Verify the connection:
+   ```
+   /mcp show
+   ```
+   You should see `azure-mcp` listed with status `● connected`.
+
+### Install the Azure Skills Plugin
+
+Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
+
+1. Add the Microsoft marketplace:
+   ```
+   /plugin marketplace add microsoft/github-copilot-for-azure
+   ```
+
+2. Install the Azure plugin:
+   ```
+   /plugin install azure@github-copilot-for-azure
+   ```
+
+3. To update later:
+   ```
+   /plugin update azure@github-copilot-for-azure
+   ```
+
+> 💡 **MCP tools vs. Azure skills:** The Azure MCP server provides **MCP tools** — low-level operations like listing resources, querying logs, and managing deployments. Azure **skills** are higher-level prompt instructions that chain these tools together with domain knowledge (e.g., `azure-diagnostics` knows how to follow a triage reasoning chain). This lab uses both: skills drive the workflow, MCP tools execute the Azure operations.
 
 ---
 
