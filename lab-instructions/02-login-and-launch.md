@@ -1,6 +1,8 @@
 # Before You Begin — Login & Launch
 
-Open a terminal (PowerShell or your preferred shell) and complete these steps:
+Open a terminal (PowerShell or your preferred shell) and complete these steps.
+
+> 💡 **Your Azure and GitHub credentials can be found in the Resources tab of the Skillable VM.**
 
 ## 1. Log in to GitHub CLI
 
