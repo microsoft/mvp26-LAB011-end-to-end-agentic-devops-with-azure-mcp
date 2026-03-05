@@ -78,6 +78,41 @@ Azure skills give Copilot CLI specialized knowledge for Azure workflows — depl
 
 ---
 
+## Before You Begin — Login & Launch
+
+Open a terminal (PowerShell or your preferred shell) and complete these steps:
+
+**1. Log in to GitHub CLI:**
+```bash
+gh auth login
+```
+Follow the prompts to authenticate. Verify with: `gh auth status` — you should see "Logged in to github.com."
+
+**2. Log in to Azure:**
+```bash
+az login
+```
+Select your subscription when prompted. Verify with:
+```bash
+az account show --query "{name:name, id:id}" -o table
+```
+
+**3. Start GitHub Copilot CLI:**
+```bash
+copilot
+```
+This opens the interactive Copilot CLI session. All "Say to Copilot" prompts in this lab are typed here.
+
+**4. Verify Azure MCP is connected:**
+```
+/mcp show
+```
+You should see `azure-mcp` listed with status `● connected`. If not, go back to the "Add the Azure MCP Server" section above.
+
+✅ **Checkpoint:** You're logged into GitHub and Azure, Copilot CLI is running, and Azure MCP is connected.
+
+---
+
 ## Getting Started — Create the Starter App
 
 Create a new folder and navigate into it — all subsequent commands assume you're in this directory:
