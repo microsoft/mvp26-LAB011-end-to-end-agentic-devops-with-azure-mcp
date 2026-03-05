@@ -4,6 +4,20 @@
 
 AI can deploy your app to Azure in 5 minutes. But should you trust what it built? In this lab, you'll use GitHub Copilot CLI with Azure skills to deploy a live Container App — then put on your architect hat and evaluate the AI's decisions. You'll review generated Bicep, identify what's missing for production, direct the AI to harden the deployment, break the app on purpose, and run a full forensic investigation — all without opening the Azure Portal.
 
+> 💡 **AI responses may vary** from what's described in this guide. Focus on which skills activate and the reasoning patterns, not exact output. The prompts are tested, but AI is non-deterministic — your results may look slightly different.
+
+### Target Architecture
+
+```mermaid
+graph LR
+    Internet -->|HTTPS| CA[Container App]
+    CA --> CAE[Container Apps Environment]
+    CAE --> LA[Log Analytics Workspace]
+    CA -->|Managed Identity + AcrPull| ACR[Azure Container Registry]
+    CA -.->|System Logs| LA
+    LA -.->|KQL Queries| Alerts[Alert Rules]
+```
+
 ---
 
 ## What You'll Learn
@@ -112,7 +126,13 @@ Azure skills give Copilot CLI specialized knowledge for Azure workflows — depl
 
 ## Getting Started — Create the Starter App
 
-Create a new folder and add these two files:
+Create a new folder and navigate into it — all subsequent commands assume you're in this directory:
+
+```bash
+mkdir devops-dashboard && cd devops-dashboard
+```
+
+Add these two files:
 
 **server.js**
 ```javascript
@@ -155,7 +175,13 @@ npm install --package-lock-only
 git init && git add -A && git commit -m "init"
 ```
 
+Expected output: `added 0 packages` from npm, then `[main (root-commit) ...] init` from git.
+
 > ⚠️ **Important:** When the AI creates your AZD environment, use a name **without hyphens** (e.g., `mcplab1234`, not `mcp-lab-1234`). Azure Container Registry names must be alphanumeric only — hyphens in the environment name will cause deployment to fail.
+
+> ⚠️ **AZD subscription alignment:** AZD maintains its own subscription config, separate from `az account show`. After `azd init`, run `azd env set AZURE_SUBSCRIPTION_ID $(az account show --query id -o tsv)` to ensure AZD uses the same subscription you're logged into.
+
+✅ **Checkpoint:** Run `git log --oneline` — you should see one commit. Run `node server.js` — visit `http://localhost:3000` and confirm you see JSON output. Press Ctrl+C to stop.
 
 ---
 
@@ -194,7 +220,13 @@ This single prompt triggers a **three-skill chain** — watch Copilot invoke eac
 curl <your-endpoint-url>
 ```
 
+> 💡 **Finding your endpoint URL:** If the URL scrolled off screen, run `azd env get-values | grep SERVICE_API` or ask Copilot: "What's the URL for my Container App?" The URL looks like `https://<app-name>.<region>.azurecontainerapps.io`.
+
+> 💡 **First request may be slow:** The first request after deploy can take 10-15 seconds while the new revision activates. This is normal — retry after a moment.
+
 **End state:** A live HTTPS endpoint returning JSON. Three skills, one prompt. But it's deployed, not production-ready.
+
+✅ **Checkpoint:** `curl <your-endpoint-url>/health` returns `{"status":"healthy",...}`. Note your app name and resource group — you'll need them in Scenario 3. Run: `azd env get-values` and note `AZURE_RESOURCE_GROUP` and your Container App name.
 
 ### Part B — Harden It (~3 min)
 
@@ -218,6 +250,12 @@ Open `infra/app/api.bicep`. What's missing for production?
 - Explains the identity chain: Container App → System-Assigned Managed Identity → AcrPull role → ACR
 
 > 💡 **300-level insight:** The AI chose `AcrPull` over `Contributor`. If it had chosen `Contributor`, would you have caught it? That's the gap between "AI-generated" and "production-reviewed."
+
+> ℹ️ **Note:** The role assignment is created, but the Container App configuration would need a re-deploy to switch from admin credentials to managed identity pull. For this lab, understanding the pattern is the goal — you don't need to re-deploy.
+
+**Other production gaps worth discussing:** Key Vault for secrets management (not just environment variables), VNet integration for network isolation (adds ~3 min provisioning time), and error handling in the app code (`SIGTERM` graceful shutdown, proper HTTP status codes). These are out of scope for 30 minutes but essential in production.
+
+✅ **Checkpoint:** The `az role assignment create` command succeeded. You can verify with: `az role assignment list --scope <acr-id> --query "[?roleDefinitionName=='AcrPull']" -o table`.
 
 **Takeaway:** The AI built a working deployment across 3 skills. You identified what "working" doesn't mean "production-ready," and used a 4th skill to start hardening.
 
@@ -255,6 +293,8 @@ Open the generated markdown and review critically:
 
 Compare the AI's recommendations against your own findings from Scenario 1B.
 
+✅ **Checkpoint:** You have a Mermaid diagram showing at least 4 resources (Container App, Environment, ACR, Log Analytics) with connection arrows. To render it: copy the Mermaid block from Copilot's output and paste into [mermaid.live](https://mermaid.live) or use VS Code with a Mermaid extension.
+
 **Takeaway:** `azure-resource-visualizer` is excellent for discovery ("what exists right now?") but requires expert review for documentation ("is this complete and accurate?"). The diagram reflects deployed state, not desired state — that gap is your job.
 
 ---
@@ -265,9 +305,13 @@ It's 2 AM. Your app returns 503. You open a terminal. Pay attention to the AI's 
 
 ### Introduce the Failure
 
+Replace `<app>` and `<rg>` with your actual Container App name and resource group from Scenario 1A (run `azd env get-values` if you need to find them):
+
 ```bash
 az containerapp ingress update --name <app> -g <rg> --target-port 9999
 ```
+
+> ⏱️ **This command takes ~2 minutes** while the new Container Apps revision activates. This is expected — don't Ctrl+C.
 
 Hit the endpoint — you'll get `503 Service Unavailable`.
 
@@ -289,7 +333,14 @@ Hit the endpoint — you'll get `503 Service Unavailable`.
 
 ### Apply the Fix
 
-Run the suggested fix command. Verify recovery → `200 OK`.
+Run the suggested fix command. It will be something like:
+```bash
+az containerapp ingress update --name <app> -g <rg> --target-port 3000
+```
+
+Verify recovery → `200 OK`.
+
+✅ **Checkpoint:** `curl <your-endpoint-url>/health` returns `{"status":"healthy",...}` again.
 
 **Takeaway:** One natural language question → `azure-diagnostics` activated → root cause + fix in ~30 seconds. The skill did the log correlation you'd normally do manually in the portal.
 
@@ -298,6 +349,8 @@ Run the suggested fix command. Verify recovery → `200 OK`.
 ## Scenario 4 — Investigate It & Operationalize It (~10 min)
 
 The incident is resolved. Now: "How long was it down? How do we prevent it next time?"
+
+> ⏱️ **Log ingestion latency:** Container App system logs take ~5 minutes to appear in Log Analytics. If you completed Scenario 3 quickly, the data should be available by now — if not, wait a minute and retry.
 
 ### Part A — Post-Mortem via KQL (~5 min)
 
@@ -315,9 +368,11 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 > 💡 **Skill spotlight:** `azure-observability` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
 
-**Review the KQL the AI wrote.** Copy a query and modify it — try adding a `| where TimeGenerated > ago(1h)` filter or changing the `summarize` to include `bin(TimeGenerated, 5m)` for a time-series view.
+**Review the KQL the AI wrote.** Copy a query and modify it — try adding a `| where TimeGenerated > ago(1h)` filter or changing the `summarize` to include `bin(TimeGenerated, 5m)` for a time-series view. Run modified queries in the Copilot CLI or paste them into the Azure Portal's Log Analytics query editor.
 
-### Part B — Operationalize It (~5 min)
+✅ **Checkpoint:** You've seen KQL queries showing the PortMismatch events, the incident timeline, and the recovery confirmation.
+
+### Part B — Operationalize It (~5 min) ⭐ _Bonus — complete if time allows_
 
 **Say to Copilot:**
 
@@ -335,6 +390,8 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 > "What other alert rules should I have for a production Container App?"
 
 The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory utilization — each with the KQL pattern you'd need.
+
+✅ **Checkpoint:** `az monitor scheduled-query list -g <rg> -o table` shows your alert rule.
 
 **Takeaway:** Two prompts, one skill (`azure-observability`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
 
@@ -364,3 +421,60 @@ If that times out:
 ```bash
 az group delete --name rg-<your-env-name> --yes --no-wait
 ```
+
+> ⚠️ **Cost warning:** If you skip cleanup, the Container Apps Environment and ACR will incur charges (~$5-12/month). Set a calendar reminder to verify resources are deleted.
+
+**Estimated lab cost per attendee (if cleaned up immediately):** ~$0.20. If left running for 30 days: ~$8-12.
+
+---
+
+## Troubleshooting
+
+### ACR name contains hyphens → Deployment fails
+**Symptom:** `azd up` fails with an error about invalid ACR name.
+**Cause:** ACR names must be alphanumeric. Hyphens in your AZD environment name propagate to the registry name.
+**Fix:** Use an environment name without hyphens (e.g., `mcplab1234`). Re-run `azd init` with a new name.
+
+### AZD deploys to wrong subscription
+**Symptom:** Resources appear in an unexpected subscription, or you get permission errors.
+**Cause:** AZD maintains its own subscription config, separate from `az account show`.
+**Fix:** Run `azd env set AZURE_SUBSCRIPTION_ID $(az account show --query id -o tsv)` to align.
+
+### `az containerapp ingress update` hangs for 2+ minutes
+**Symptom:** The command appears stuck after running.
+**Cause:** The CLI waits for the new Container Apps revision to activate.
+**Fix:** This is expected behavior. Wait for it to complete — do not Ctrl+C.
+
+### First request after deploy returns timeout or slow response
+**Symptom:** `curl` times out or takes >10 seconds on first request.
+**Cause:** New revision is activating (cold start). `minReplicas: 1` is set, but initial activation still takes time.
+**Fix:** Wait ~15 seconds after deployment completes, then retry.
+
+### KQL query returns no results in Scenario 4
+**Symptom:** Queries return empty tables.
+**Cause:** Log Analytics ingestion has ~5 minute latency. Metrics have ~15 minute latency.
+**Fix:** Wait 5 minutes after Scenario 3, then retry the query.
+
+### `az monitor scheduled-query create` fails with "command not found"
+**Symptom:** CLI doesn't recognize the `scheduled-query` command.
+**Cause:** The preview CLI extension isn't installed.
+**Fix:** Run `az extension add --name scheduled-query --yes`
+
+### Docker build fails during `azd up`
+**Symptom:** Deployment fails with Docker-related error.
+**Cause:** Docker Desktop isn't running.
+**Fix:** Start Docker Desktop and verify with `docker version`. Then re-run `azd up`.
+
+### PowerShell quote escaping in KQL queries
+**Symptom:** KQL `where Reason_s == "PortMismatch"` fails with syntax errors in PowerShell.
+**Cause:** PowerShell handles double quotes differently than bash.
+**Fix:** Use the `has` operator instead: `where Reason_s has "PortMismatch"`. The AI typically handles this automatically.
+
+---
+
+## What's Next
+
+- **Azure MCP Server docs:** [learn.microsoft.com/azure/developer/azure-mcp-server](https://learn.microsoft.com/azure/developer/azure-mcp-server)
+- **GitHub Copilot CLI docs:** [docs.github.com/copilot/github-copilot-in-the-cli](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
+- **Container Apps learning path:** [learn.microsoft.com/training/paths/deploy-manage-container-apps](https://learn.microsoft.com/training/paths/deploy-manage-container-apps)
+- **Try these next:** VNet integration for network isolation, Key Vault for secrets management, GitHub Actions CI/CD with OIDC workload identity federation, Terraform support via `azure-prepare`

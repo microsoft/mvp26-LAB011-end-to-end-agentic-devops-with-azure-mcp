@@ -1,6 +1,38 @@
-# Welcome MVP Summit 2026 Creators!
+# [MVP Summit 2026](https://mvp.microsoft.com)
 
-This repo to help get your Lab ready for the MVP summit.
+## 🔥 End-to-End Agentic DevOps with Azure MCP — Ship, Harden, Break, Investigate
+
+**Hands-On Lab (30 min) | Level: 300**
+
+AI can deploy your app to Azure in 5 minutes. But should you trust what it built? In this lab, you'll use GitHub Copilot CLI with Azure skills to deploy a live Container App — then put on your architect hat and evaluate the AI's decisions. You'll review generated Bicep, identify what's missing for production, direct the AI to harden the deployment, break the app on purpose, and run a full forensic investigation — all without opening the Azure Portal.
+
+### Quick Start
+
+```powershell
+# Install & validate all prerequisites
+powershell -ExecutionPolicy Bypass -File setup-lab.ps1
+
+# Or validate an existing setup
+powershell -ExecutionPolicy Bypass -File setup-lab.ps1 -ValidateOnly
+```
+
+Then follow the full lab guide in [lab-session-abstract.md](lab-session-abstract.md).
+
+### What You'll Learn
+
+- How Azure **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
+- Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
+- How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
+- How skills like `azure-diagnostics` and `azure-observability` reason through problems
+- When to trust the AI's decisions and when to override them
+
+### Prerequisites
+
+- Azure subscription with Contributor access
+- GitHub Copilot CLI with Azure MCP Server configured
+- Node.js 22+ · Docker Desktop (running) · Git · Azure CLI with Bicep · Azure Developer CLI (azd)
+
+See [lab-session-abstract.md](lab-session-abstract.md) for detailed setup instructions.
 
 ## Log Issues
 
@@ -9,14 +41,6 @@ We are using issues in this repo to track progress towards completion and readin
 ## Questions?
 
 Create an issue in the repo with your question or concern. As a back up, you can email [Mike Kinsman](mailto:mikki@microsoft.com) and [Laurent Bugnion](lbugnion@microsoft.com).
-
-# [MVP Summit 2026](https://mvp.microsoft.com)
-
-## 🔥LAB011: Hunting with Relationships: Graph Driven Threat Detection with Sentinel Platform and Custom Security graphs
-
-### Session Description
-
-This hands‑on lab explores threat hunting in Microsoft Sentinel using a graph‑first approach. Attendees investigate attacker behavior through relationships between identities, assets, permissions, activity patterns, and lateral‑movement paths—going beyond isolated events. Using custom security graphs and GQL, participants run log queries, identify missed attacker behaviors, and perform faster, scalable graph‑based hunting.
 
 ### 🌟 Microsoft Learn MCP Server
 
