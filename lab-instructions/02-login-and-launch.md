@@ -4,24 +4,19 @@ Open a terminal (PowerShell or your preferred shell) and complete these steps.
 
 > 💡 **Your Azure and GitHub credentials can be found in the Resources tab of the Skillable VM.**
 
-## 1. Log in to GitHub CLI
-
-```bash
-gh auth login
-```
-
-Follow the prompts to authenticate. Verify with: `gh auth status` — you should see "Logged in to github.com."
-
-## 2. Log in to Azure
+## 1. Log in to Azure
 
 ```bash
 az login
 ```
 
-Select your subscription when prompted. Verify with:
-```bash
-az account show --query "{name:name, id:id}" -o table
-```
+When the sign-in pop-up shows up, select **Work or school account** and select **Continue**. Input the username found in the **Resources** tab of your Skillable VM by clicking on the keyboard icon and select **Next**. Then, input the TAP found in the same tab by clicking on the keyboard icon to complete sign-in. 
+
+When the terminal prompts you for subscription selection, hit **Enter** for no changes. 
+
+## 2. Log in to GitHub
+
+Open this link in the browser: [https://github.com/enterprises/skillable-events/sso]<https://github.com/enterprises/skillable-events/sso>. Follow the prompts to authenticate. Select the Azure account you just authenticated to. 
 
 ## 3. Start GitHub Copilot CLI
 
