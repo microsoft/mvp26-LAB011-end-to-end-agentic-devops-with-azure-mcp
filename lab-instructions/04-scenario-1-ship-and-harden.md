@@ -15,10 +15,10 @@ This single prompt triggers a **three-skill chain** — watch Copilot invoke eac
 Watch how it:
 - Scans your workspace — finds `package.json`, classifies it as a Node.js HTTP API
 - Chooses Container Apps as the hosting target (do you agree with that choice over App Service or Functions?)
-- Generates four files: `Dockerfile`, `azure.yaml`, `infra/main.bicep`, `infra/app/api.bicep`
+- Generates infrastructure and configuration files: `Dockerfile`, `azure.yaml`, and Bicep templates in `infra/` (typically `main.bicep` and supporting modules)
 - Creates an AZD environment and sets your subscription + region
 
-> 💡 **Skill spotlight:** `azure-prepare` doesn't just generate files — it reads skill references for your language runtime, Bicep patterns, and AZD conventions. Open the generated `Dockerfile` and `infra/app/api.bicep` — these came from skill reference templates, not generic boilerplate.
+> 💡 **Skill spotlight:** `azure-prepare` doesn't just generate files — it reads skill references for your language runtime, Bicep patterns, and AZD conventions. Open the generated `Dockerfile` and Bicep files in `infra/` — these came from skill reference templates, not generic boilerplate.
 
 ### 2️⃣ `azure-validate` activates next
 
@@ -52,7 +52,13 @@ curl <your-endpoint-url>
 
 ## Part B — Harden It (~3 min)
 
-Open `infra/app/api.bicep`. What's missing for production?
+Review the generated Bicep files in your `infra/` directory. Depending on how `azure-prepare` ran, it may have already applied some security hardening during generation. Your job is to **audit what the AI did and didn't do**.
+
+**Say to Copilot:**
+
+> "Review my deployed Container App infrastructure for production readiness gaps. Check for managed identity, VNet integration, diagnostic settings, and health probes."
+
+### What to look for
 
 | Gap | Why It Matters | Severity |
 |---|---|---|
@@ -60,6 +66,20 @@ Open `infra/app/api.bicep`. What's missing for production?
 | **No VNet integration** | Container Apps Environment is on a public network. No isolation. | Medium |
 | **No diagnostic settings** | Platform metrics aren't forwarded. You'd miss CPU/memory alerts. | Medium |
 | **No health probe configured** | Defaults to TCP probes. Your app has `/health` — it should use it. | Low |
+
+> 💡 **The AI may have already hardened some of these.** The `azure-prepare` skill includes a security hardening phase that can set up managed identity and RBAC during initial generation. If you find managed identity and AcrPull are already configured — great, that's the skill working as designed. Focus your review on what's still missing.
+
+### If managed identity is already configured
+
+If the generated Bicep already includes system-assigned managed identity with AcrPull, skip the RBAC prompt below and instead ask Copilot about a gap that remains:
+
+> "My Container App doesn't have VNet integration. What would I need to add for network isolation?"
+
+or
+
+> "Add an HTTP health probe to my Container App that uses the /health endpoint."
+
+### If managed identity is NOT configured
 
 **Say to Copilot:**
 
@@ -79,9 +99,9 @@ Watch how it:
 
 **Other production gaps worth discussing:** Key Vault for secrets management (not just environment variables), VNet integration for network isolation (adds ~3 min provisioning time), and error handling in the app code (`SIGTERM` graceful shutdown, proper HTTP status codes). These are out of scope for 30 minutes but essential in production.
 
-✅ **Checkpoint:** The `az role assignment create` command succeeded. You can verify with: `az role assignment list --scope <acr-id> --query "[?roleDefinitionName=='AcrPull']" -o table`.
+✅ **Checkpoint:** You've audited the generated infrastructure and either confirmed the AI hardened it or used `azure-rbac` to close the gap. Verify with: `az role assignment list --scope <acr-id> --query "[?roleDefinitionName=='AcrPull']" -o table`.
 
-**Takeaway:** The AI built a working deployment across 3 skills. You identified what "working" doesn't mean "production-ready," and used a 4th skill to start hardening.
+**Takeaway:** The AI may build a secure deployment out of the box — or it may not. The skill's security hardening phase is non-deterministic, which is exactly why human review matters. Whether the AI did the hardening or you prompted it, the critical skill is knowing what "production-ready" looks like and verifying it.
 
 ---
 
