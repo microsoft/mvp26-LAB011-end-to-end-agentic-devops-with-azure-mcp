@@ -18,11 +18,17 @@ When the terminal prompts you for subscription selection, hit **Enter** for no c
 
 Open this link in the browser: [https://github.com/enterprises/skillable-events/sso]<https://github.com/enterprises/skillable-events/sso>. Follow the prompts to authenticate. Select the Azure account you just authenticated to. 
 
-## 3. Start GitHub Copilot CLI
+## 3. Log in to GitHub Copilot CLI
 
 ```bash
 copilot
 ```
+```bash
+/login
+```
+Follow the instructions in Copilot to complete authorization using the signed-in account.
+
+![Copilot Login]()
 
 This opens the interactive Copilot CLI session. All "Say to Copilot" prompts in this lab are typed here.
 
