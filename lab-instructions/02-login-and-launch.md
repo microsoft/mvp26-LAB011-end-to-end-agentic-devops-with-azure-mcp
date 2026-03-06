@@ -23,14 +23,14 @@ Open this link in the browser: [https://github.com/enterprises/skillable-events/
 ```bash
 copilot
 ```
+This opens the interactive Copilot CLI session. All "Say to Copilot" prompts in this lab are typed here.
+
 ```bash
 /login
 ```
 Follow the instructions in Copilot to complete authorization using the signed-in account.
 
-![Copilot Login]()
-
-This opens the interactive Copilot CLI session. All "Say to Copilot" prompts in this lab are typed here.
+![Copilot Login](../resources/CopilotLogIn.png)
 
 ## 4. Verify Azure MCP is connected
 
