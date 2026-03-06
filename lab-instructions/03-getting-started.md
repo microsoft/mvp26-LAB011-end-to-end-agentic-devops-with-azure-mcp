@@ -18,7 +18,7 @@ Create a new folder and navigate into it. All subsequent commands should be run 
 Create a new file named `server.js`:
 
 ```bash
-!touch server.js
+!New-Item -ItemType File server.js
 ```
 
 Open `server.js` in your editor and paste the following content:
