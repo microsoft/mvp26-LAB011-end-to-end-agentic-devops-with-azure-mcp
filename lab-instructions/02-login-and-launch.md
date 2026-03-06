@@ -28,7 +28,7 @@ copilot
 ```
 Follow the instructions in Copilot to complete authorization using the signed-in account.
 
-![Copilot Login]()
+![Copilot Login](../resources/CopilotLogIn.png)
 
 This opens the interactive Copilot CLI session. All "Say to Copilot" prompts in this lab are typed here.
 
