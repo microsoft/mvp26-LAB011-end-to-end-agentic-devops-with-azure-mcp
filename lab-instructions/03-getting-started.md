@@ -1,126 +1,31 @@
-# Getting Started — Create the Starter App
+# Getting Started — Set Up the Starter App
 
-## 1. Create and Enter the Project Directory
+> 💡 **Note:** All shell commands in this step are prefaced with `!` so they run directly in your Copilot CLI session. If you're running commands in a separate terminal instead, omit the `!` prefix.
 
-Create a new folder and navigate into it. All subsequent commands should be run from this directory. In Copilot CLI, you can preface your commands with '!' to run them directly in shell. 
+## 1. Clone the Lab Repository
+
+If you haven't already, clone the lab repo and navigate into it:
 
 ```bash
-!mkdir devops-dashboard
+!git clone https://github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-with-azure-mcp.git
+!cd mvp26-LAB011-end-to-end-agentic-devops-with-azure-mcp
+```
+
+## 2. Copy the Starter App
+
+The `starter-app/` directory contains a ready-to-go Node.js API. Copy it to a new `devops-dashboard` working directory and initialize it as its own Git repo:
+
+```powershell
+!Copy-Item -Recurse starter-app devops-dashboard
 !cd devops-dashboard
+!git init && git add -A && git commit -m "init"
 ```
 
-***
+All subsequent commands should be run from the `devops-dashboard` directory.
 
-## 2. Create Application Files
+> 💡 **What's in the starter app?** `server.js` is a lightweight Node.js HTTP API with `/health`, `/api/status`, and `/api/deployments` endpoints. `package.json` defines the project metadata and start script. `package-lock.json` is pre-generated.
 
-### Create `server.js`
-
-Create a new file named `server.js`:
-
-```bash
-!New-Item -ItemType File server.js
-```
-
-Open `server.js` in your editor and paste the following content:
-
-```js
-const http = require("http");
-
-const port = process.env.PORT || 3000;
-const startTime = new Date().toISOString();
-
-const routes = {
-  "/health": {
-    status: "healthy"
-  },
-  "/api/status": {
-    service: "devops-dashboard",
-    version: "1.0.0",
-    region: process.env.AZURE_REGION || "local",
-    deployedAt: startTime,
-    runtime: {
-      node: process.version,
-      platform: process.platform,
-      memory: Math.round(process.memoryUsage().rss / 1024 / 1024) + " MB"
-    }
-  },
-  "/api/deployments": {
-    latest: {
-      id: "azd-" + Date.now(),
-      status: "succeeded",
-      timestamp: new Date().toISOString(),
-      environment: process.env.NODE_ENV || "development"
-    }
-  }
-};
-
-const server = http.createServer((req, res) => {
-  const handler = routes[req.url];
-
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(
-    JSON.stringify(
-      handler || {
-        service: "devops-dashboard",
-        endpoints: Object.keys(routes)
-      }
-    )
-  );
-});
-
-server.listen(port, () => {
-  console.log(`DevOps Dashboard API running on port ${port}`);
-});
-```
-
-***
-
-### Create `package.json`
-
-Create a new file named `package.json` with the following contents:
-
-```json
-{
-  "name": "devops-dashboard",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "node server.js"
-  }
-}
-```
-
-***
-
-### Generate `package-lock.json`
-
-Generate a lock file without installing any dependencies:
-
-```bash
-!npm install --package-lock-only
-```
-
-Expected output:
-
-```text
-added 0 packages
-audited 0 packages
-```
-
-***
-
-## 3. Initialize Git Repository
-
-Initialize a Git repository and commit the starter app.
-
-```bash
-!git init
-!git add -A
-!git commit -m "init"
-```
-
-***
-
-## 4. AZD Notes and Gotchas
+## 3. AZD Notes and Gotchas
 
 ### Environment Naming
 
@@ -154,9 +59,7 @@ After running `azd init`, ensure the subscription matches your current Azure CLI
 
 ***
 
-## 5. Checkpoint: Verify Setup
-
-### Verify Git Commit
+## 4. Checkpoint: Verify Setup
 
 ```bash
 !git log --oneline
@@ -164,31 +67,13 @@ After running `azd init`, ensure the subscription matches your current Azure CLI
 
 You should see the initial commit.
 
-***
-
-### Run the App Locally
-
 Start the server:
 
 ```bash
 !node server.js
 ```
 
-Open a browser and navigate to:
-
-```text
-http://localhost:3000
-```
-
-You should see JSON output listing the service name and available endpoints.
-
-***
-
-### Stop the Server
-
-Press **Ctrl + C** to stop the running server.
-
-***
+Open a browser and navigate to `http://localhost:3000` — you should see JSON output listing the service name and available endpoints. Press **Ctrl + C** to stop the running server.
 
 ✅ You now have a working starter app ready to be integrated into AZD and Copilot CLI–driven workflows.
 
