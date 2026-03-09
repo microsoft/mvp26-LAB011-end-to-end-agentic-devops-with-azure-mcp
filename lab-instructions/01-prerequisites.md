@@ -11,23 +11,28 @@
 **Configuration needed**
 - Azure Skills Plugin
 
-## Install the Azure Skills Plugin
-
 Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
 
-1. Install the Azure plugin:
+## Install the Azure Skills Plugin
+
+1. Add the Microsoft marketplace:
    ```
-   /plugin install azure@awesome-copilot
+   /plugin marketplace add microsoft/github-copilot-for-azure
    ```
 
-2. Reload azure mcp:
+2. Install the Azure plugin:
+   ```
+   /plugin install azure@github-copilot-for-azure
+   ```
+
+3. Reload azure mcp:
    ```
    /mcp reload
    ```
 
 4. To update later:
    ```
-   /plugin update azure@awesome-copilot
+   /plugin update azure@github-copilot-for-azure
    ```
 
 > 💡 **MCP tools vs. Azure skills:** The Azure MCP server provides **MCP tools** — low-level operations like listing resources, querying logs, and managing deployments. Azure **skills** are higher-level prompt instructions that chain these tools together with domain knowledge (e.g., `azure-diagnostics` knows how to follow a triage reasoning chain). This lab uses both: skills drive the workflow, MCP tools execute the Azure operations.
