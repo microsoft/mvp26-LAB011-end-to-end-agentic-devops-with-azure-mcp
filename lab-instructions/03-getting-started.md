@@ -25,41 +25,7 @@ All subsequent commands should be run from the `devops-dashboard` directory.
 
 > 💡 **What's in the starter app?** `server.js` is a lightweight Node.js HTTP API with `/health`, `/api/status`, and `/api/deployments` endpoints. `package.json` defines the project metadata and start script. `package-lock.json` is pre-generated.
 
-## 3. AZD Notes and Gotchas
-
-### Environment Naming
-
-When using AI-assisted setup, AZD environment names **must not include hyphens**.
-
-✅ Valid:
-
-```text
-mcplab1234
-```
-
-❌ Invalid:
-
-```text
-mcp-lab-1234
-```
-
-Azure Container Registry names must be alphanumeric. Using hyphens can cause deployment failures.
-
-***
-
-### Subscription Alignment
-
-AZD maintains its own subscription configuration, separate from the Azure CLI.
-
-After running `azd init`, ensure the subscription matches your current Azure CLI context:
-
-```bash
-!azd env set AZURE_SUBSCRIPTION_ID $(az account show --query id -o tsv)
-```
-
-***
-
-## 4. Checkpoint: Verify Setup
+## 3. Checkpoint: Verify Setup
 
 ```bash
 !git log --oneline
