@@ -16,7 +16,7 @@ When the terminal prompts you for subscription selection, hit **Enter** for no c
 
 ## 2. Log in to GitHub
 
-Open this link in the browser: [https://github.com/enterprises/skillable-events/sso]<https://github.com/enterprises/skillable-events/sso>. Follow the prompts to authenticate. Select the Azure account you just authenticated to. 
+Open this link in the browser: <https://github.com/enterprises/skillable-events/sso>. Follow the prompts to authenticate. Select the Azure account you just authenticated to. 
 
 ## 3. Log in to GitHub Copilot CLI
 
