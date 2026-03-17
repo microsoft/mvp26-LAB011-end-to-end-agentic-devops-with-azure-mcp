@@ -40,6 +40,26 @@
 **Cause:** PowerShell handles double quotes differently than bash.
 **Fix:** Use the `has` operator instead: `where Reason_s has "PortMismatch"`. The AI typically handles this automatically.
 
+## Lab VM disconnects frequently
+**Symptom:** The Skillable VM disconnects every 10–15 minutes or drops connection multiple times per hour.
+**Cause:** Network instability between your browser and the Skillable VM environment.
+**Fix:** Reconnect using the Skillable lab launch URL. Your work is preserved — the VM is still running. If disconnects are very frequent, try switching to a wired network connection or a different browser. Avoid having many browser tabs open alongside the VM.
+
+## Lab VM is slow or unresponsive
+**Symptom:** Commands take much longer than expected, typing lags, or the UI feels sluggish.
+**Cause:** Lab VM resources are shared and may vary in performance. Deployment steps (`azd up`) are particularly resource-intensive.
+**Fix:** Be patient with deployment commands — they typically complete within 5–7 minutes even on slower VMs. Close unnecessary applications within the VM (browser tabs, extra VS Code windows). If a specific command appears hung, check if it's still making progress before cancelling.
+
+## Azure skill is interrupted or takes very long
+**Symptom:** A Copilot skill invocation seems to hang, times out, or takes significantly longer than expected.
+**Cause:** Azure skill execution depends on both the AI service and the Azure APIs it calls. Intermittent slowness can occur.
+**Fix:** Wait up to 2 minutes for a skill to complete. If it truly times out, re-send the same prompt. If a skill is repeatedly interrupted, try breaking the request into smaller prompts (e.g., instead of "deploy and harden," try "deploy" first, then "harden" separately).
+
+## Cannot access lab VM via launch URL
+**Symptom:** Clicking the Skillable lab launch URL returns an error or blank page.
+**Cause:** Session may have expired, or the URL may have been invalidated.
+**Fix:** Return to the Skillable portal and relaunch the lab. If the issue persists, check with a proctor for a fresh lab environment.
+
 ---
 
 **Back to:** [Overview](00-overview.md) | [What's Next →](10-whats-next.md)

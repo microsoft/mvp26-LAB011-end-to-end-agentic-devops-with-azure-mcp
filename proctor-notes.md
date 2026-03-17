@@ -4,6 +4,27 @@
 
 ---
 
+## ⚠️ Real-World Timing Advisory
+
+Benchmark testing completed the lab in ~25 minutes, but **in real lab conditions expect 45–90 minutes** for most attendees. Contributing factors:
+- **VM performance:** Skillable VMs may be slower than dev machines, adding time to deployments
+- **VM disconnects:** Some testers reported 4–5 disconnects per hour — each costs 1–2 minutes to recover
+- **Azure skill variability:** AI responses are non-deterministic; skills may take longer or require re-prompting
+- **Login friction:** Account confusion at sign-in can cost 5–10 minutes
+
+**Recommendation:** Frame Scenarios 1–3 as the core lab (~20 min). Scenario 4 is a bonus. Encourage attendees to continue on their own if they run out of time — the lab repo is public and the instructions are self-contained.
+
+## VM Stability Notes
+
+| Issue | What Testers Reported | What To Tell Attendees |
+|---|---|---|
+| **Frequent disconnections** | 4–5 disconnects in ~1 hour | "Reconnect via the launch URL — your work is preserved. The VM keeps running." |
+| **Slow responsiveness** | Commands take 2–3x longer than on local machines | "Deployment steps are slower on shared VMs — this is expected. Use wait time for discussion." |
+| **Azure skills interrupted** | Skill invocations timeout or hang | "Re-send the same prompt. If it keeps failing, try breaking it into smaller requests." |
+| **Launch URL issues** | Blank page or error on initial access | "Relaunch from the Skillable portal. If persistent, ask a proctor for a fresh environment." |
+
+---
+
 ## Critical — Must Address Before Lab
 
 | Issue | Root Cause | Mitigation |

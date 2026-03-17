@@ -6,6 +6,10 @@ AI can deploy your app to Azure in 5 minutes. But should you trust what it built
 
 > 💡 **AI responses may vary** from what's described in this guide. Focus on which skills activate and the reasoning patterns, not exact output. The prompts are tested, but AI is non-deterministic — your results may look slightly different.
 
+> ⏱️ **Timing tip:** In real lab environments, completion times may vary — VM performance, network latency, and AI response variability can all add time. **Scenarios 1–3 are the core experience.** If you're running short on time, prioritize those and treat Scenario 4 as a bonus you can explore afterward. The lab environment remains available for the full session duration.
+
+> 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/config set yolo true`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
+
 ### Target Architecture
 
 ```mermaid
@@ -35,6 +39,8 @@ graph LR
 | 3 | `azure-deploy` | Runs `azd up` — provisions infrastructure + builds + deploys | 1A: Ship |
 | 4 | `azure-rbac` | Finds least-privilege roles from Azure docs, generates assignment commands | 1B: Harden |
 | 5 | `azure-resource-visualizer` | Queries Resource Graph, maps relationships, generates Mermaid diagrams | 2: See |
+
+> 📖 **Glossary:** **ACR** = Azure Container Registry (private Docker image store). **AZD** = Azure Developer CLI (`azd`). **Bicep** = Azure's IaC language. **KQL** = Kusto Query Language (for log queries). **MCP** = Model Context Protocol.
 | 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause | 3: Break |
 | 7 | `azure-observability` | Writes KQL queries from natural language, creates alert rules | 4: Investigate |
 

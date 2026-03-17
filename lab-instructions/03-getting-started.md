@@ -57,6 +57,8 @@ After running `azd init`, ensure the subscription matches your current Azure CLI
 !azd env set AZURE_SUBSCRIPTION_ID $(az account show --query id -o tsv)
 ```
 
+> 🔄 **When to re-run this:** If you restart your terminal session, switch Azure subscriptions, or run `azd init` again, you must re-run this command to keep AZD aligned with your CLI context.
+
 ***
 
 ## 4. Checkpoint: Verify Setup
