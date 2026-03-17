@@ -6,8 +6,6 @@ AI can deploy your app to Azure in 5 minutes. But should you trust what it built
 
 > 💡 **AI responses may vary** from what's described in this guide. Focus on which skills activate and the reasoning patterns, not exact output. The prompts are tested, but AI is non-deterministic — your results may look slightly different.
 
-> 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/config set yolo true`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
-
 ### Target Architecture
 
 ```mermaid
