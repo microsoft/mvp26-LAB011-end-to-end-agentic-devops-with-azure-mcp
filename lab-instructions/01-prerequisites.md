@@ -10,7 +10,6 @@
 
 **Configuration needed**
 - Azure Skills Plugin
-- Git user identity (see below)
 
 ## Install the Azure Skills Plugin
 
