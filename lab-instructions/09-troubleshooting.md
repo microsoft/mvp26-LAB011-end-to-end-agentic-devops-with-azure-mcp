@@ -39,6 +39,7 @@
 **Symptom:** KQL `where Reason_s == "PortMismatch"` fails with syntax errors in PowerShell.
 **Cause:** PowerShell handles double quotes differently than bash.
 **Fix:** Use the `has` operator instead: `where Reason_s has "PortMismatch"`. The AI typically handles this automatically.
+**Fix:** Return to the Skillable portal and relaunch the lab. If the issue persists, check with a proctor for a fresh lab environment.
 
 ---
 
