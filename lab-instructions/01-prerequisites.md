@@ -11,9 +11,9 @@
 **Configuration needed**
 - Azure Skills Plugin
 
-## Install the Azure Skills Plugin
-
 Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
+
+## Install the Azure Skills Plugin
 
 1. Add the Microsoft marketplace:
    ```
@@ -25,7 +25,12 @@ Azure skills give Copilot CLI specialized knowledge for Azure workflows — depl
    /plugin install azure@github-copilot-for-azure
    ```
 
-3. To update later:
+3. Reload azure mcp:
+   ```
+   /mcp reload
+   ```
+
+4. To update later:
    ```
    /plugin update azure@github-copilot-for-azure
    ```
