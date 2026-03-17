@@ -12,25 +12,6 @@
 - Azure Skills Plugin
 - Git user identity (see below)
 
-## Configure Your Environment
-
-### Pin Terminal to the Taskbar
-
-Right-click **Windows Terminal** in the Start menu and select **Pin to taskbar** for easy access throughout the lab.
-
-> 💡 **PowerShell 7** is recommended and pre-installed on the VM. If prompted to use PowerShell 7 instead of Windows PowerShell 5.1, select **Yes**.
-
-### Configure Git Identity
-
-Git requires a user identity for commits. Run the following in your terminal:
-
-```bash
-git config --global user.email "labuser@youremail.com"
-git config --global user.name "Lab User"
-```
-
-> ⚠️ **WSL update prompts:** VS Code may prompt you to update WSL when you first open it. You can safely dismiss these prompts or select **Update** — either way, it won't affect the lab. If the prompt is persistent, click **Don't Show Again**.
-
 ## Install the Azure Skills Plugin
 
 Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
