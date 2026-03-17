@@ -8,6 +8,8 @@ AI can scaffold your Azure deployment in minutes. But would you push AI-generate
 
 **Say to Copilot:**
 
+> 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/config set yolo true`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
+
 > "I have a Node.js API in this folder. Deploy it to Azure Container Apps."
 
 This single prompt triggers a **three-skill chain** — watch Copilot invoke each one:
