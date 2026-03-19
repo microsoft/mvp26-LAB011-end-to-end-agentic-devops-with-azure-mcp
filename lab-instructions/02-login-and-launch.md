@@ -4,10 +4,8 @@
 
 Type for **Docker Desktop** in the Search and start your Docker instance. 
 
-Open a terminal, use the shortcut (Ctrl + Shift + 4) to open Powershell and complete these steps.
-
 ## 1. Log in to Azure
-Open Powershell and complete these steps.
+Open a terminal, use the shortcut (Ctrl + Shift + 4) to open Powershell and complete these steps.
 
 ```bash
 az login
