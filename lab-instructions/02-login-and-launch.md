@@ -50,15 +50,31 @@ Follow the instructions in Copilot to complete authorization using the signed-in
 
 ![Copilot Login](../resources/CopilotLogIn.png)
 
-## 5. Verify Azure MCP is connected
+## 5. Install the Azure Skills Plugin
 
-```
-/mcp show
-```
+1. Add the Microsoft marketplace:
+   ```
+   /plugin marketplace add microsoft/azure-skills
+   ```
 
-You should see `azure-mcp` listed. If not, go back to the [Prerequisites](01-prerequisites.md) and configure the Azure MCP Server.
+2. Install the Azure plugin:
+   ```
+   /plugin install azure@azure-skills
+   ```
 
-✅ **Checkpoint:** You're logged into GitHub and Azure, Copilot CLI is running, and Azure MCP is connected.
+3. Reload azure mcp:
+   ```
+   /mcp reload
+   ```
+
+4. To update later:
+   ```
+   /plugin update azure@azure-skills
+   ```
+
+> 💡 **MCP tools vs. Azure skills:** The Azure MCP server provides **MCP tools** — low-level operations like listing resources, querying logs, and managing deployments. Azure **skills** are higher-level prompt instructions that chain these tools together with domain knowledge (e.g., `azure-diagnostics` knows how to follow a triage reasoning chain). This lab uses both: skills drive the workflow, MCP tools execute the Azure operations.
+
+✅ **Checkpoint:** You're logged into GitHub and Azure, Copilot CLI is running, Azure skills and Azure MCP Server are installed.
 
 ---
 
