@@ -6,11 +6,8 @@ Type for **Docker Desktop** in the Search and start your Docker instance.
 
 Open a terminal (PowerShell or your preferred shell) and complete these steps.
 
-> 💡 **Your Azure and GitHub credentials can be found in the Resources tab of the Skillable VM.** Always use the credentials listed there — do not use your personal Microsoft account or your work/corporate account.
-
-> ⚠️ **Duplicate users:** In some lab environments, you may see two different user accounts listed. If this happens, use the credentials shown in the **Resources** tab and ignore any additional accounts. The Resources tab is the source of truth.
-
 ## 1. Log in to Azure
+Open Powershell and complete these steps.
 
 ```bash
 az login
@@ -19,6 +16,8 @@ az login
 When the sign-in pop-up shows up, select **Work or school account** and select **Continue**. Input the username found in the **Resources** tab of your Skillable VM by clicking on the keyboard icon and select **Next**. Then, input the TAP found in the same tab by clicking on the keyboard icon to complete sign-in.
 
 > ⚠️ **Do NOT select "Microsoft account" (personal/consumer).** The login page may show multiple options — always select **Work or school account**. Selecting the wrong option will result in access-denied errors.
+
+> ⚠️ **Duplicate users:** In some lab environments, you may see two different user accounts listed. If this happens, use the credentials shown in the **Resources** tab and ignore any additional accounts. The Resources tab is the source of truth.
 
 When the terminal prompts you for subscription selection, hit **Enter** for no changes. 
 
@@ -35,6 +34,12 @@ Select the Azure account from the previous step and complete authentication.
 Open this link in the browser: <https://github.com/enterprises/skillable-events/sso>. Follow the prompts to authenticate. Select the Azure account you just authenticated to. 
 
 ## 4. Log in to GitHub Copilot CLI
+To ensure you are using the latest version, perform the following command to update Copilot CLI. 
+
+```bash
+winget upgrade github.copilot
+```
+Once Copilot CLI is updated to the latest version, enter the following command: 
 
 ```bash
 copilot
