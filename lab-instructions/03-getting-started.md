@@ -24,6 +24,12 @@ Copy-Item -Recurse starter-app devops-dashboard
 cd devops-dashboard
 ```
 ```powershell
+git config --global user.name "Your Name"
+```
+```powershell
+git config --global user.email "you@example.com"
+```
+```powershell
 git init && git add -A && git commit -m "init"
 ```
 
