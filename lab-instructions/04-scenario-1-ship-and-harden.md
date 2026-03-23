@@ -4,13 +4,13 @@ AI can scaffold your Azure deployment in minutes. But would you push AI-generate
 
 ## Part A — Ship It (~5 min)
 
-> 💡 **Make sure your API is NOT currently running.** If you started `node server.js` during the checkpoint, stop it with **Ctrl+C** before proceeding. The deploy process needs port 3000 to be free.
+> 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/yolo`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
+
+If you’re not already in the **devops-dashboard** directory, cd into it, then prompt `copilot` to start a Copilot session.
 
 **Say to Copilot:**
 
-> 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/config set yolo true`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
-
-> "I have a Node.js API in this folder. Deploy it to Azure Container Apps."
+> **"I have a Node.js API in this folder. Deploy it to Azure Container Apps."**
 
 This single prompt triggers a **three-skill chain** — watch Copilot invoke each one:
 
