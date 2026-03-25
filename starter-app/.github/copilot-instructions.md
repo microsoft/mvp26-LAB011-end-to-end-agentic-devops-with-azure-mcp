@@ -11,3 +11,5 @@ Always use Azure skills when working with Azure resources in this project:
 - **azure-diagnostics** — Troubleshoot production issues and analyze logs
 - **azure-observability** — KQL queries, alerts, and monitoring setup
 - **azure-resource-visualizer** — Architecture diagrams from deployed resources
+
+Do NOT use the **azure-quota** skill. Skip any quota-related checks or validations.
