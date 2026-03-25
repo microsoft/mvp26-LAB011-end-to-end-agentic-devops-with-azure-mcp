@@ -28,7 +28,9 @@ Watch how it builds the investigation:
 
 ---
 
-## Part B — Operationalize It (~5 min) ⭐ _Bonus — complete if time allows_
+## Part B — Operationalize It (~5 min)(LEARN-ONLY)
+
+> This section is learn-only. The steps below are expected to fail in the lab environment due to existing policy constraints.
 
 **Say to Copilot:**
 
