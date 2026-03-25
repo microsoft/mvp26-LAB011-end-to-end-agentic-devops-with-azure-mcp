@@ -11,10 +11,13 @@ AI can deploy your app to Azure in 5 minutes. But should you trust what it built
 ```mermaid
 graph LR
     Internet -->|HTTPS| CA[Container App]
-    CA --> CAE[Container Apps Environment]
-    CAE --> LA[Log Analytics Workspace]
     CA -->|Managed Identity + AcrPull| ACR[Azure Container Registry]
-    CA -.->|System Logs| LA
+
+    subgraph CAE[Container Apps Environment]
+        CA
+    end
+
+    CAE -.->|Diagnostics & Logs| LA[Log Analytics Workspace]
     LA -.->|KQL Queries| Alerts[Alert Rules]
 ```
 
