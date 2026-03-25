@@ -2,20 +2,6 @@
 
 Congratulations — you've deployed, hardened, broken, diagnosed, and operationalized an Azure Container App using 7 AI skills in 30 minutes. Here's where to go from here:
 
-## 📋 Cheat Sheet — Quick Reference
-
-Keep these tips handy for your own projects:
-
-| Tip | Command / Setting |
-|---|---|
-| **Enable yolo mode** (auto-approve commands) | `/config set yolo true` |
-| **Switch AI models** | `/config set model <model-name>` |
-| **Install Azure skills plugin** | `/plugin marketplace add microsoft/github-copilot-for-azure` then `/plugin install azure@github-copilot-for-azure` |
-| **Update Azure skills plugin** | `/plugin update azure@github-copilot-for-azure` |
-| **Run shell commands in Copilot** | Prefix with `!` (e.g., `!az account show`) |
-| **Check MCP connection** | `/mcp show` |
-| **View available skills** | `/skill list` |
-
 ## 🔗 Clone the Lab Repo
 
 Want to revisit this lab or share it with colleagues? Clone the starter repo:
