@@ -1,6 +1,6 @@
 # End-to-End Agentic DevOps with Azure MCP — Ship, Harden, Break, Investigate
 
-**Hands-On Lab (30 min) | Level: 300**
+**Hands-On Lab (40 min) | Level: 300**
 
 AI can deploy your app to Azure in 5 minutes. But should you trust what it built? In this lab, you'll use GitHub Copilot CLI with Azure skills to deploy a live Container App — then put on your architect hat and evaluate the AI's decisions. You'll review generated Bicep, identify what's missing for production, direct the AI to harden the deployment, break the app on purpose, and run a full forensic investigation — all without opening the Azure Portal.
 
