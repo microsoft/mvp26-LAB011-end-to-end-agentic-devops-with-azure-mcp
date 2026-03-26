@@ -12,6 +12,7 @@ git clone https://github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-wi
 
 ## Learn More
 
+- **Azure Skills Plugin Blog Announcement:** [devblogs.microsoft.com/all-things-azure/announcing-the-azure-skills-plugin/](https://devblogs.microsoft.com/all-things-azure/announcing-the-azure-skills-plugin/) 
 - **Azure MCP Server docs:** [learn.microsoft.com/azure/developer/azure-mcp-server](https://learn.microsoft.com/azure/developer/azure-mcp-server)
 - **GitHub Copilot CLI docs:** [docs.github.com/copilot/github-copilot-in-the-cli](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
 - **Container Apps learning path:** [learn.microsoft.com/training/paths/deploy-manage-container-apps](https://learn.microsoft.com/training/paths/deploy-manage-container-apps)
