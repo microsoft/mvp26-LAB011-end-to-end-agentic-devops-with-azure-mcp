@@ -6,7 +6,9 @@ Architecture diagrams are either stale, wrong, or don't exist. AI can generate t
 
 **Say to Copilot:**
 
-> "Visualize the resources in my resource group as an architecture diagram."
+```
+Visualize the resources in my resource group as an architecture diagram.
+```
 
 ### 5️⃣ `azure-resource-visualizer` activates
 
@@ -30,7 +32,9 @@ Open the generated markdown and review critically:
 
 **Say to Copilot:**
 
-> "What's missing from this architecture for a production deployment?"
+```
+"What's missing from this architecture for a production deployment?"
+```
 
 Compare the AI's recommendations against your own findings from Scenario 1B.
 
