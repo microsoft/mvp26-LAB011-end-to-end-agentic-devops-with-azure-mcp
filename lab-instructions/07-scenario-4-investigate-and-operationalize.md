@@ -8,7 +8,9 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 **Say to Copilot:**
 
-> "Query the Log Analytics workspace for my Container App. Show me what happened during the port mismatch incident."
+```
+Query the Log Analytics workspace for my Container App. Show me what happened during the port mismatch incident.
+```
 
 ### 7️⃣ `azure-observability` activates
 
@@ -34,7 +36,9 @@ Watch how it builds the investigation:
 
 **Say to Copilot:**
 
-> "Create a KQL alert rule that fires when PortMismatch events appear in the Container App system logs."
+```
+Create a KQL alert rule that fires when PortMismatch events appear in the Container App system logs.
+```
 
 ### `azure-observability` continues
 
@@ -47,7 +51,9 @@ It:
 
 **Then ask:**
 
-> "What other alert rules should I have for a production Container App?"
+```
+What other alert rules should I have for a production Container App?"
+```
 
 The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory utilization — each with the KQL pattern you'd need.
 
