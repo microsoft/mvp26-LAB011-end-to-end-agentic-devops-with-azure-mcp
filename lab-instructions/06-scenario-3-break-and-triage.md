@@ -6,7 +6,7 @@ It's 2 AM. Your app returns 503. You open a terminal. Pay attention to the AI's 
 
 Replace `<app>` and `<rg>` with your actual Container App name and resource group from Scenario 1A (run `azd env get-values` if you need to find them):
 
-```bash
+```powershell
 az containerapp ingress update --name <app> -g <rg> --target-port 9999
 ```
 
@@ -20,7 +20,9 @@ Hit the endpoint — you'll get `503 Service Unavailable`.
 
 **Say to Copilot:**
 
-> "My Container App is returning 503. What's wrong?"
+```
+My Container App is returning 503. What's wrong?
+```
 
 ### 6️⃣ `azure-diagnostics` activates
 
@@ -39,7 +41,8 @@ Watch the triage chain:
 ## Apply the Fix
 
 Run the suggested fix command. It will be something like:
-```bash
+
+```powershell
 az containerapp ingress update --name <app> -g <rg> --target-port 3000
 ```
 
