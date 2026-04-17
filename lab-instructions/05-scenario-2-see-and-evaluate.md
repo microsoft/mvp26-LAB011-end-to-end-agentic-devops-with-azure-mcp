@@ -1,7 +1,3 @@
-[← Previous: Scenario 1 — Ship & Harden](04-scenario-1-ship-and-harden.md) | [Next: Scenario 3 — Break & Triage →](06-scenario-3-break-and-triage.md)
-
----
-
 # Scenario 2 — See It & Evaluate It (~5 min)
 
 Architecture diagrams are either stale, wrong, or don't exist. AI can generate them instantly — but are they accurate?
@@ -49,7 +45,3 @@ Compare the AI's recommendations against your own findings from Scenario 1B.
 ---
 
 **Next:** [Scenario 3 — Break It & Triage It →](06-scenario-3-break-and-triage.md)
-
----
-
-[← Previous: Scenario 1 — Ship & Harden](04-scenario-1-ship-and-harden.md) | [Next: Scenario 3 — Break & Triage →](06-scenario-3-break-and-triage.md)

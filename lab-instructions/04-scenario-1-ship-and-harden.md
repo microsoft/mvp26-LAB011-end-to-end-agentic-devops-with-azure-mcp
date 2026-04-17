@@ -1,7 +1,3 @@
-[← Previous: Getting Started](03-getting-started.md) | [Next: Scenario 2 — See & Evaluate →](05-scenario-2-see-and-evaluate.md)
-
----
-
 # Scenario 1 — Ship It & Harden It (~20 min)
 
 AI can scaffold your Azure deployment in minutes. But would you push AI-generated Bicep to production without reviewing it?
@@ -9,9 +5,6 @@ AI can scaffold your Azure deployment in minutes. But would you push AI-generate
 ## Part A — Ship It (~15 min)
 
 > 🚀 **Speed tip:** This lab runs in a safe, sandboxed environment. Consider enabling **yolo mode** in Copilot CLI (`/yolo`) to auto-approve commands and skip confirmation prompts — it can save several minutes over the course of the lab.
-
-> [!WARNING]
-> 🏠 **At home?** This lab creates real Azure resources in your subscription that will incur costs. Be mindful of what gets provisioned. When you’re finished with the lab, run `azd down` to delete all resources and avoid ongoing charges.
 
 > 💡 **Make sure your API is NOT currently running.** If you started `node server.js` during the checkpoint, stop it with **Ctrl+C** before proceeding. The deploy process needs port 3000 to be free.
 
@@ -125,7 +118,3 @@ How do I add an HTTP health probe to my Container App that uses the /health endp
 ---
 
 **Next:** [Scenario 2 — See It & Evaluate It →](05-scenario-2-see-and-evaluate.md)
-
----
-
-[← Previous: Getting Started](03-getting-started.md) | [Next: Scenario 2 — See & Evaluate →](05-scenario-2-see-and-evaluate.md)

@@ -1,7 +1,3 @@
-[← Previous: Scenario 4 — Investigate & Operationalize](07-scenario-4-investigate-and-operationalize.md) | [Next: What's Next →](09-whats-next.md)
-
----
-
 # Troubleshooting
 
 ## ACR name contains hyphens → Deployment fails
@@ -45,13 +41,6 @@
 **Fix:** Use the `has` operator instead: `where Reason_s has "PortMismatch"`. The AI typically handles this automatically.
 **Fix:** Return to the Skillable portal and relaunch the lab. If the issue persists, check with a proctor for a fresh lab environment.
 
-> [!TIP]
-> 🏠 **At home?** If you hit a persistent issue, try re-running the failed step or command. If the problem continues, open an issue in this repo for help.
-
 ---
 
 **Back to:** [Overview](00-overview.md) | [What's Next →](10-whats-next.md)
-
----
-
-[← Previous: Scenario 4 — Investigate & Operationalize](07-scenario-4-investigate-and-operationalize.md) | [Next: What's Next →](09-whats-next.md)

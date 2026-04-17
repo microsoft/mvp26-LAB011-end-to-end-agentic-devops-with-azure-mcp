@@ -1,7 +1,3 @@
-[Next: Prerequisites →](01-prerequisites.md)
-
----
-
 # End-to-End Agentic DevOps with Azure MCP — Ship, Harden, Break, Investigate
 
 **Hands-On Lab (40 min) | Level: 300**
@@ -61,7 +57,3 @@ graph LR
 | 8 | [Cleanup](08-cleanup.md) | `08-cleanup.md` | ~1 min |
 | 9 | [Troubleshooting](09-troubleshooting.md) | `09-troubleshooting.md` | Reference |
 | 10 | [What's Next](10-whats-next.md) | `10-whats-next.md` | Reference |
-
----
-
-[Next: Prerequisites →](01-prerequisites.md)

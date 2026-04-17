@@ -416,7 +416,3 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
-
-# Custom
-buildreadme.md
-guidance.md
