@@ -1,3 +1,7 @@
+[← Previous: Scenario 3 — Break & Triage](06-scenario-3-break-and-triage.md) | [Next: Troubleshooting →](08-troubleshooting.md)
+
+---
+
 # Scenario 4 — Investigate It & Operationalize It (~10 min)
 
 The incident is resolved. Now: "How long was it down? How do we prevent it next time?"
@@ -64,3 +68,7 @@ The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory
 ---
 
 **Next:** [Cleanup →](08-cleanup.md)
+
+---
+
+[← Previous: Scenario 3 — Break & Triage](06-scenario-3-break-and-triage.md) | [Next: Troubleshooting →](08-troubleshooting.md)

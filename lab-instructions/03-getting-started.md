@@ -1,3 +1,7 @@
+[← Previous: Login & Launch](02-login-and-launch.md) | [Next: Scenario 1 — Ship & Harden →](04-scenario-1-ship-and-harden.md)
+
+---
+
 # Getting Started — Set Up the Starter App
 
 Open a new Powershell session and set up the starter app using the following instructions. 
@@ -20,6 +24,10 @@ The `starter-app/` directory contains a ready-to-go Node.js API. Copy it to a ne
 ```powershell
 Copy-Item -Recurse starter-app devops-dashboard
 ```
+
+> [!TIP]
+> 🏠 **On macOS or Linux?** Use `cp -r starter-app devops-dashboard` instead of the PowerShell command above.
+
 ```powershell
 cd devops-dashboard
 ```
@@ -58,3 +66,7 @@ Open a browser and navigate to `http://localhost:3000` — you should see JSON o
 ***
 
 **Next:** [Scenario 1 — Ship It & Harden It →](04-scenario-1-ship-and-harden.md)
+
+---
+
+[← Previous: Login & Launch](02-login-and-launch.md) | [Next: Scenario 1 — Ship & Harden →](04-scenario-1-ship-and-harden.md)

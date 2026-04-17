@@ -1,3 +1,7 @@
+[← Previous: Scenario 2 — See & Evaluate](05-scenario-2-see-and-evaluate.md) | [Next: Scenario 4 — Investigate & Operationalize →](07-scenario-4-investigate-and-operationalize.md)
+
+---
+
 # Scenario 3 — Break It & Triage It (~5 min)
 
 It's 2 AM. Your app returns 503. You open a terminal. Pay attention to the AI's diagnostic reasoning chain, not just the answer.
@@ -55,3 +59,7 @@ Verify recovery → `200 OK`.
 ---
 
 **Next:** [Scenario 4 — Investigate & Operationalize →](07-scenario-4-investigate-and-operationalize.md)
+
+---
+
+[← Previous: Scenario 2 — See & Evaluate](05-scenario-2-see-and-evaluate.md) | [Next: Scenario 4 — Investigate & Operationalize →](07-scenario-4-investigate-and-operationalize.md)
