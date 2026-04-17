@@ -1,3 +1,7 @@
+[← Previous: Troubleshooting](08-troubleshooting.md)
+
+---
+
 # What's Next
 
 Congratulations — you've deployed, hardened, broken, diagnosed, and operationalized an Azure Container App using 7 AI skills in 30 minutes. Here's where to go from here:
@@ -28,6 +32,13 @@ git clone https://github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-wi
 
 We'd love to hear how the lab went! Share feedback via the MVP Summit group chat or open an issue at [github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-with-azure-mcp/issues](https://github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-with-azure-mcp/issues).
 
+> [!TIP]
+> 🏠 **At home?** Share feedback or questions by opening an issue at the [repo's Issues page](https://github.com/microsoft/mvp26-LAB011-end-to-end-agentic-devops-with-azure-mcp/issues).
+
 ---
 
 **Back to:** [Overview](00-overview.md)
+
+---
+
+[← Previous: Troubleshooting](08-troubleshooting.md)
