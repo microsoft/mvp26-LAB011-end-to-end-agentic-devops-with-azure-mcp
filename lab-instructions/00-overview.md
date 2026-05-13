@@ -23,10 +23,10 @@ graph LR
 - How Azure **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
 - Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
 - How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
-- How skills like `azure-diagnostics` and `azure-observability` reason through problems: triage patterns, log correlation, KQL generation
+- How `azure-diagnostics` reasons through problems: triage patterns, log correlation, KQL generation
 - When to trust the AI's decisions and when to override them
 
-## Skills Used — 7 Skills Across 4 Scenarios
+## Skills Used — 6 Skills Across 4 Scenarios
 
 | # | Skill | What It Does | Scenario |
 |---|---|---|---|
@@ -37,8 +37,7 @@ graph LR
 | 5 | `azure-resource-visualizer` | Queries Resource Graph, maps relationships, generates Mermaid diagrams | 2: See |
 
 > 📖 **Glossary:** **ACR** = Azure Container Registry (private Docker image store). **AZD** = Azure Developer CLI (`azd`). **Bicep** = Azure's IaC language. **KQL** = Kusto Query Language (for log queries). **MCP** = Model Context Protocol.
-| 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause | 3: Break |
-| 7 | `azure-observability` | Writes KQL queries from natural language, creates alert rules | 4: Investigate |
+| 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause, writes KQL queries, creates alert rules | 3: Break, 4: Investigate |
 
 ## Lab Sections
 

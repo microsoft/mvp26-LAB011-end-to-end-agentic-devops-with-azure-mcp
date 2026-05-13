@@ -23,7 +23,7 @@ Then follow the full lab guide in [lab-session-abstract.md](lab-session-abstract
 - How Azure **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
 - Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
 - How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
-- How skills like `azure-diagnostics` and `azure-observability` reason through problems
+- How `azure-diagnostics` reasons through problems
 - When to trust the AI's decisions and when to override them
 
 ### Prerequisites

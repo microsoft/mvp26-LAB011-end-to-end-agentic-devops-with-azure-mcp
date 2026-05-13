@@ -10,7 +10,7 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 > "Query the Log Analytics workspace for my Container App. Show me what happened during the port mismatch incident."
 
-### 7️⃣ `azure-observability` activates
+### 7️⃣ `azure-diagnostics` activates
 
 Watch how it builds the investigation:
 
@@ -20,7 +20,7 @@ Watch how it builds the investigation:
 4. **Incident timeline** — writes a KQL query with `earliest(TimeGenerated)` and `latest(TimeGenerated)` to calculate exact downtime duration
 5. **Recovery confirmation** — checks for `RevisionReady` events to prove the fix worked
 
-> 💡 **Skill spotlight:** `azure-observability` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
+> 💡 **Skill spotlight:** `azure-diagnostics` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
 
 **Review the KQL the AI wrote.** Copy a query and modify it — try adding a `| where TimeGenerated > ago(1h)` filter or changing the `summarize` to include `bin(TimeGenerated, 5m)` for a time-series view. Run modified queries in the Copilot CLI or paste them into the Azure Portal's Log Analytics query editor.
 
@@ -34,7 +34,7 @@ Watch how it builds the investigation:
 
 > "Create a KQL alert rule that fires when PortMismatch events appear in the Container App system logs."
 
-### `azure-observability` continues
+### `azure-diagnostics` continues
 
 It:
 - Writes the alert KQL query targeting `ContainerAppSystemLogs_CL`
@@ -51,7 +51,7 @@ The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory
 
 ✅ **Checkpoint:** `az monitor scheduled-query list -g <rg> -o table` shows your alert rule.
 
-**Takeaway:** Two prompts, one skill (`azure-observability`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
+**Takeaway:** Two prompts, one skill (`azure-diagnostics`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
 
 ---
 

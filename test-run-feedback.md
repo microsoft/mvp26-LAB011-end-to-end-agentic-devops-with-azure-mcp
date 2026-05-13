@@ -66,7 +66,7 @@
 
 ### What Worked
 
-- **All 7 Azure skills invoked successfully:** azure-prepare, azure-validate, azure-deploy, azure-rbac, azure-resource-visualizer, azure-diagnostics, azure-observability
+- **All 6 Azure skills invoked successfully:** azure-prepare, azure-validate, azure-deploy, azure-rbac, azure-resource-visualizer, azure-diagnostics
 - **Scenario 1A deployed on first attempt** — no retries needed
 - **KQL found PortMismatch in <30 seconds** after the break was introduced
 - **Alert rule created with correct `--condition-query QUERY=...` syntax**

@@ -11,7 +11,7 @@
 **Configuration needed**
 - Azure Skills Plugin
 
-Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
+Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 6 Azure skills.
 
 ## Install the Azure Skills Plugin
 

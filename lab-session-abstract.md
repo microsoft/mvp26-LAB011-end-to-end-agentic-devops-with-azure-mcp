@@ -25,10 +25,10 @@ graph LR
 - How Azure **skills** chain together — one prompt can trigger `prepare` → `validate` → `deploy` automatically
 - Where AI-generated infrastructure gets you to 80% — and the production gaps you need to close
 - How to critically review AI-generated Bicep, Dockerfiles, and architecture diagrams
-- How skills like `azure-diagnostics` and `azure-observability` reason through problems: triage patterns, log correlation, KQL generation
+- How `azure-diagnostics` reasons through problems: triage patterns, log correlation, KQL generation
 - When to trust the AI's decisions and when to override them
 
-## Skills Used — 7 Skills Across 4 Scenarios
+## Skills Used — 6 Skills Across 4 Scenarios
 
 | # | Skill | What It Does | Scenario |
 |---|---|---|---|
@@ -37,8 +37,7 @@ graph LR
 | 3 | `azure-deploy` | Runs `azd up` — provisions infrastructure + builds + deploys | 1A: Ship |
 | 4 | `azure-rbac` | Finds least-privilege roles from Azure docs, generates assignment commands | 1B: Harden |
 | 5 | `azure-resource-visualizer` | Queries Resource Graph, maps relationships, generates Mermaid diagrams | 2: See |
-| 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause | 3: Break |
-| 7 | `azure-observability` | Writes KQL queries from natural language, creates alert rules | 4: Investigate |
+| 6 | `azure-diagnostics` | Pulls system logs, follows diagnostic reasoning chain to root cause, writes KQL queries, creates alert rules | 3: Break, 4: Investigate |
 
 ---
 
@@ -57,7 +56,7 @@ graph LR
 
 ### Install the Azure Skills Plugin
 
-Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 7 Azure skills.
+Azure skills give Copilot CLI specialized knowledge for Azure workflows — deployment, diagnostics, RBAC, observability, and more. This lab uses 6 Azure skills.
 
 1. Add the Microsoft marketplace:
    ```
@@ -349,7 +348,7 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 > "Query the Log Analytics workspace for my Container App. Show me what happened during the port mismatch incident."
 
-**7️⃣ `azure-observability` activates.** Watch how it builds the investigation:
+**7️⃣ `azure-diagnostics` activates.** Watch how it builds the investigation:
 
 1. **Workspace discovery** — locates your Log Analytics workspace from the resource group
 2. **Table exploration** — queries `ContainerAppSystemLogs_CL` to find available event types
@@ -357,7 +356,7 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 4. **Incident timeline** — writes a KQL query with `earliest(TimeGenerated)` and `latest(TimeGenerated)` to calculate exact downtime duration
 5. **Recovery confirmation** — checks for `RevisionReady` events to prove the fix worked
 
-> 💡 **Skill spotlight:** `azure-observability` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
+> 💡 **Skill spotlight:** `azure-diagnostics` writes KQL *for you* based on natural language. Review the generated queries — would you have written them differently? The skill uses `has` instead of `==` for string matching in KQL, which is more resilient to log format changes.
 
 **Review the KQL the AI wrote.** Copy a query and modify it — try adding a `| where TimeGenerated > ago(1h)` filter or changing the `summarize` to include `bin(TimeGenerated, 5m)` for a time-series view. Run modified queries in the Copilot CLI or paste them into the Azure Portal's Log Analytics query editor.
 
@@ -369,7 +368,7 @@ The incident is resolved. Now: "How long was it down? How do we prevent it next 
 
 > "Create a KQL alert rule that fires when PortMismatch events appear in the Container App system logs."
 
-**`azure-observability` continues.** It:
+**`azure-diagnostics` continues.** It:
 - Writes the alert KQL query targeting `ContainerAppSystemLogs_CL`
 - Generates the full `az monitor scheduled-query create` command with threshold, frequency, severity, and action group
 - Explains each parameter so you can tune it (e.g., evaluation frequency, number of violations before firing)
@@ -384,7 +383,7 @@ The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory
 
 ✅ **Checkpoint:** `az monitor scheduled-query list -g <rg> -o table` shows your alert rule.
 
-**Takeaway:** Two prompts, one skill (`azure-observability`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
+**Takeaway:** Two prompts, one skill (`azure-diagnostics`), and you went from "the incident is over" to "this class of incident will page me next time." The real 300-level value: you can now read and modify these KQL queries yourself.
 
 ---
 
@@ -395,8 +394,8 @@ The AI suggests: replica health, restart loops, high latency, 5xx spikes, memory
 | 1. Ship & Harden | ~8 min | `azure-prepare` → `azure-validate` → `azure-deploy` + `azure-rbac` | 4 |
 | 2. See & Evaluate | ~5 min | `azure-resource-visualizer` | 1 |
 | 3. Break & Triage | ~5 min | `azure-diagnostics` | 1 |
-| 4. Investigate & Operationalize | ~10 min | `azure-observability` | 1 |
-| **Total** | **~28 min** | **7 unique skills** | **7** |
+| 4. Investigate & Operationalize | ~10 min | `azure-diagnostics` | 1 |
+| **Total** | **~28 min** | **6 unique skills** | **6** |
 
 ---
 
